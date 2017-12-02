@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>JDash Tutorial</title>
+    <!-- jdash client library -->
+    <script src="node_modules/jdash-ui/dist/jdash.min.js"></script>
+    <!-- jdash theme & elements -->
+    <link rel="import" href="node_modules/jdash-ui/dist/components/jdash.html">
+</head>
+<body class="j-light-gray j-padding">
+    <!-- Define <hello-world> dashlet -->
+    <j-dashlet id="hello-world" title="Hello world!">
+        <template>
+            <!-- This will be the HTML content of your dashlet  -->
+            <h1></h1>
+        </template>
+        <script>
+        jdash.define(function () {
+
+            this.initialized = function () {
+                // Dom is ready!
+                var h1 = this.querySelector('h1')
+                h1.textContent = 'Hello World!';
+            }
+
+        })
+        </script>
+    </j-dashlet>
+
+    <button id="createDashboardBtn">Create Dashboard</button>
+    <button id="addDashletBtn">Add Dashlet</button>
+    <div id="dashboardList"></div>
+
+    <j-dashboard id="dashboard" j-view-mode="dashletedit">
+        <h2 j-bind="title"></h2>
+    </j-dashboard>
+
+    <script>
+    jdash.ready(function () {
+
+        // Set provider
+        jdash.Provider = new jdash.ProviderTypes.OnPremise({ url: '/jdash/api/v1' }); // define your endpoint
+
+        createDashboardList();
+        document.querySelector('#createDashboardBtn').addEventListener('click', function () {
+            var title = window.prompt('Set a title for new dashboard');
+
+            // Create a new dashboard
+            jdash.Provider.createDashboard({
+                title: title
+            }).then(function (result) {
+                console.log('Dashboard created with id:' + result.id);
+                dashboard.load(result.id);
+                createDashboardList();
+            }).catch(function (err) {
+                alert('There was an error creating dashboard: ' + err.message || err)
+            })
+        })
+
+        // add hello world dashlet to dashboard
+        document.querySelector('#addDashletBtn').addEventListener('click', function (e) {
+            dashboard.addDashlet('hello-world');
+        })
+    })
+
+        function createDashboardList() {
+    var container = document.querySelector('#dashboardList');
+
+    // clear existing buttons.
+    container.innerHTML = '';
+    return jdash.Provider.getMyDashboards().then(function (result) {
+
+        // for each dashboard create a button
+        for (var i = 0; i < result.data.length; i++) {
+            var btn = document.createElement('button');
+            btn.textContent = result.data[i].title;
+            btn.id = result.data[i].id;
+            container.appendChild(btn);
+            btn.addEventListener('click', function (e) {
+                var idToLoad = e.target.id;
+                dashboard.load(idToLoad);
+            })
+        }
+    })
+}
+    </script>
+</body>
+</html>
