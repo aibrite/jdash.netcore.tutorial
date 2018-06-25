@@ -23,7 +23,7 @@ namespace jdash.netcore.tutorial {
             // Ensure you have a valid database.
 
             // *** TO USE MSSQL ** //
-            //string msSqlConnStr = "Server=10.0.2.15;Database=JDashTutorial;User Id=sa;Password=Deneme321.";
+            //string msSqlConnStr = "Server=10.0.2.15;Database=JDashTutorial;User Id=sa;Password=1.";
             //return new JDash.NetCore.Provider.MsSQL.JSQLProvider(msSqlConnStr);
 
             // *** TO USE MYSQL ** //
