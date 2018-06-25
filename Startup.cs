@@ -29,14 +29,7 @@ namespace jdash.netcore.tutorial
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
+            app.UseDeveloperExceptionPage();
 
             // use index.html as default.
             app.UseDefaultFiles();
@@ -45,6 +38,7 @@ namespace jdash.netcore.tutorial
             app.UseStaticFiles();
 
             app.UseJDash<JDashConfig>(); 
+
 
         }
     }

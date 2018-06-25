@@ -11,9 +11,9 @@ namespace jdash.netcore.tutorial {
         }
 
         // Use this method to get current user for current request.
-        public override JDashPrincipal GetPrincipal()
+        public override JDashPrincipal GetPrincipal(string authorizationHeader)
         {
-            return new JDashPrincipal("user name");
+            return new JDashPrincipal("tutorial-user");
         }
 
         // Jdash NetCore library calls this method 
@@ -22,11 +22,12 @@ namespace jdash.netcore.tutorial {
         {
             // Ensure you have a valid database.
 
-            //string msSqlConnStr = "Data Source=.;Initial Catalog=DemoJDash;Integrated Security=SSPI;";
+            // *** TO USE MSSQL ** //
+            //string msSqlConnStr = "Server=10.0.2.15;Database=JDashTutorial;User Id=sa;Password=Deneme321.";
             //return new JDash.NetCore.Provider.MsSQL.JSQLProvider(msSqlConnStr);
 
-            // if you are using MySql uncomment below lines.
-            string mySqlConnStr = "Server=127.0.0.1;Database=jdash;Uid=root;Pwd=1;";
+            // *** TO USE MYSQL ** //
+            string mySqlConnStr = "Server=127.0.0.1;SslMode=none;Database=jdash;Uid=root;Pwd=1;";
             return new JDash.NetCore.Provider.MySQL.JMySQLProvider(mySqlConnStr);
 
         }

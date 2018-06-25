@@ -10,6 +10,7 @@
     <link rel="import" href="node_modules/jdash-ui/dist/components/jdash.html">
 </head>
 <body class="j-light-gray j-padding">
+    
     <!-- Define <hello-world> dashlet -->
     <j-dashlet id="hello-world" title="Hello world!">
         <template>
@@ -17,35 +18,39 @@
             <h1></h1>
         </template>
         <script>
-        jdash.define(function () {
+            jdash.define(function () {
 
-            this.initialized = function () {
-                // Dom is ready!
-                var h1 = this.querySelector('h1')
-                h1.textContent = 'Hello World!';
-            }
+                this.initialized = function () {
+                    // Dom is ready!
+                    var h1 = this.querySelector('h1')
+                    h1.textContent = 'Hello World!';
+                }
 
-        })
+            })
         </script>
     </j-dashlet>
 
-    <button id="createDashboardBtn">Create Dashboard</button>
-    <button id="addDashletBtn">Add Dashlet</button>
+    <h2>Play</h2>
+    <button id="createDashboardBtn">Create a dashboard</button>
+    <button id="addDashletBtn">Add dashlet</button>
+    <h3>Your Dashboards</h3>
     <div id="dashboardList"></div>
 
     <j-dashboard id="dashboard" j-view-mode="dashletedit">
         <h2 j-bind="title"></h2>
     </j-dashboard>
 
-    <script>
+    <script type="text/javascript">
     jdash.ready(function () {
 
-        // Set provider
-        jdash.Provider = new jdash.ProviderTypes.OnPremise({ url: '/jdash/api/v1' }); // define your endpoint
+        // Set provider using end point /jdash/api/v1
+        jdash.Provider = new jdash.ProviderTypes.OnPremise({ url: '/jdash/api/v1' }); 
 
+        // Generate UI items
         createDashboardList();
+
         document.querySelector('#createDashboardBtn').addEventListener('click', function () {
-            var title = window.prompt('Set a title for new dashboard');
+            var title = window.prompt('Title for new dashboard');
 
             // Create a new dashboard
             jdash.Provider.createDashboard({
@@ -55,7 +60,7 @@
                 dashboard.load(result.id);
                 createDashboardList();
             }).catch(function (err) {
-                alert('There was an error creating dashboard: ' + err.message || err)
+                alert('Please open console to see error details. Error creating dashboard: ' + err.message || err)
             })
         })
 
@@ -65,26 +70,25 @@
         })
     })
 
-        function createDashboardList() {
-    var container = document.querySelector('#dashboardList');
+    function createDashboardList() {
+        var container = document.querySelector('#dashboardList');
 
-    // clear existing buttons.
-    container.innerHTML = '';
-    return jdash.Provider.getMyDashboards().then(function (result) {
+        // clear existing buttons.
+        container.innerHTML = '';
+        return jdash.Provider.getMyDashboards().then(function (result) {
 
-        // for each dashboard create a button
-        for (var i = 0; i < result.data.length; i++) {
-            var btn = document.createElement('button');
-            btn.textContent = result.data[i].title;
-            btn.id = result.data[i].id;
-            container.appendChild(btn);
-            btn.addEventListener('click', function (e) {
-                var idToLoad = e.target.id;
-                dashboard.load(idToLoad);
-            })
-        }
-    })
-}
+            // for each dashboard create a button
+            for (var i = 0; i < result.data.length; i++) {
+                var btn = document.createElement('button');
+                btn.textContent = result.data[i].title;
+                btn.id = result.data[i].id;
+                container.appendChild(btn);
+                btn.addEventListener('click', function (e) {
+                    var idToLoad = e.target.id;
+                    dashboard.load(idToLoad);
+                })
+            }})
+    }
     </script>
 </body>
 </html>
