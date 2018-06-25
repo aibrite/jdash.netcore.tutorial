@@ -8,7 +8,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.0" />    
-    <PackageReference Include="JDash.NetCore.Api" Version="2.1.0" />
+    <PackageReference Include="JDash.NetCore.Api" Version="2.1.1" />
     <PackageReference Include="JDash.NetCore.Models" Version="2.1.0" />
     <PackageReference Include="JDash.NetCore.Provider.MsSql" Version="2.1.0" />
     <PackageReference Include="JDash.NetCore.Provider.MySql" Version="2.1.0" />
