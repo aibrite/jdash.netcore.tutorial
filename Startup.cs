@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
 using JDash.NetCore.Api;
 
 namespace jdash.netcore.tutorial
@@ -37,9 +36,8 @@ namespace jdash.netcore.tutorial
             // serve static content.
             app.UseStaticFiles();
 
-            app.UseJDash<JDashConfig>(); 
-
-
+            // add Jdash end points
+            app.UseJDash<JDashConfig>();
         }
     }
 }
